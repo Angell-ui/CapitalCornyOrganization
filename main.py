@@ -11,16 +11,14 @@ async def index():
 
 @app.websocket("/ws/audio")
 async def ws_audio():
-    logger.info("WebSocket connection received")
+    app.logger.info("WebSocket connection received")
     call_sid = websocket.args.get("call_sid")
-    logger.info(f"Call SID from query: {call_sid}")
+    app.logger.info(f"Call SID from query: {call_sid}")
 
     try:
-        async for message in websocket:
-            logger.info(f"Received message: {message}")
+        while True:
+            message = await websocket.receive()
+            app.logger.info(f"Received message: {message}")
             await websocket.send(f"Echo: {message}")
     except Exception as e:
-        logger.error(f"WebSocket error: {e}")
-
-if __name__ == "__main__":
-    app.run(port=10000)
+        app.logger.error(f"WebSocket error: {e}")
