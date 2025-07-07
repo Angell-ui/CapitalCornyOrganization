@@ -1,3 +1,2 @@
-quart
-hypercorn
-websockets
+aiohttp>=3.9.0
+websockets>=10.0
